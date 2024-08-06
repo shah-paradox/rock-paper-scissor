@@ -1,98 +1,112 @@
-// Variable declaration
-let computerScore=0;
-let playerScore=0;
 
-//Function declaration
-function getHumanName()
-{
-    //Enter player name
-    playerName = prompt("My name is: ");
-    return playerName;
+
+let humanScore=0, computerScore=0;
+
+
+
+// Take user input
+function userInput(){
+    let input=prompt("Enter rock, paper or scissor");
+    input=input.toLowerCase();
+    return input;
+
 }
 
-function getHumanChoice()
-{
-    let playerChoice = (prompt("Enter rock or paper or scissor")).toLowerCase();
-    if(playerChoice==="rock")
-        return 0;
-    if(playerChoice==="paper")
-        return 1;
-    if(playerChoice==="scissor")
-        return 2;
+//Take computerinput
+function computerInput(){
+    let temp = Math.floor(Math.random() * 3);// 0: rock, 1:paper, 2:scissor
+    if(temp==0)
+        return "rock"
+    else if (temp==1)
+        return "paper"
+    else if (temp==2)
+        return "scissor"
 }
 
-function getComputerChoice()
-{
-    return Math.floor(Math.random() * 3);
-}
-function playRound()
-{
-    let computerChoice=getComputerChoice;
-    let humanChoice=getHumanChoice();
-    if(humanChoice===computerChoice)
+//Battle
+function battle(computerChoice,userChoice){
+    console.log(`You played ${userChoice}`);
+    console.log(`The computer played ${computerChoice}`);
+    if(computerChoice==userChoice)
+        return "tie";
+    if(computerChoice=="rock")
     {
-        alert("Draw");
-        return;
+        if(userChoice=="paper")
+            return "user";
+        if(userChoice=="scissor")
+            return "computer"
     }
-    if(computerChoice===0)
+    if(computerChoice=="paper")
     {
-        
-        if(humanChoice===1)
-        {
-            alert(`Congrats ${playerName}, you won!`);
-            playerScore++;
-        }
-        if(humanChoice===2)
-        {
-            alert(`Congrats ${playerName}, you lost!`);
-            computerScore++;
-        }
+        if(userChoice=="rock")
+            return "computer";
+        if(userChoice=="scissor")
+            return "user"
     }
-    if(computerChoice===1)
+    if(computerChoice=="scissor")
     {
-        
-        if(humanChoice===2)
-        {
-            alert(`Congrats ${playerName}, you won!`);
-            playerScore++;
-        }
-        if(humanChoice===0)
-        {
-            alert(`Congrats ${playerName}, you lost!`);
-            computerScore++;
-        }
-    }
-    if(computerChoice===2)
-    {
-        
-        if(humanChoice===0)
-        {
-            alert(`Congrats ${playerName}, you won!`);
-            playerScore++;
-        }
-        if(humanChoice===1)
-        {
-            alert(`Congrats ${playerName}, you lost!`);
-            computerScore++;
-        }
+        if(userChoice=="paper")
+            return "computer";
+        if(userChoice=="rock")
+            return "user"
     }
 }
 
+
+
+//Function for a single round
+function playRound(){
+
+    //Takes computer input and human input
+    let computerChoice=computerInput();
+    let userChoice=userInput();
+    
+    //Compares them and updates score accordingly
+    let result = battle(computerChoice, userChoice);
+    if(result=="computer")
+    {   
+        console.log("Computer wins");
+        computerScore++;
+    }
+    else if(result=="user")
+    {
+        console.log("User wins");
+        humanScore++;
+    }
+    else if(result=="tie")
+    {
+        console.log("Its a tie");
+    }
+
+}
+   
+
+
+
+// main
+
+// Function that plays entire game
 function playGame()
 {
-    for(let i =0; i<5;i++)
+    //plays a round five times 
+    for(let i =0;i<5;i++)
     {
         playRound();
     }
+    //Check who won and display message
+    if(humanScore>computerScore)
+    {
+        alert("You win");
+    }
+    else if(humanScore<computerScore)
+    {
+        alert("Computer wins");
+    }
+    else
+    {
+        alert("Its a tie");
+    }
 }
 
-// Welcome message
-alert("Hi. Please enter your name");
-const playerName=getHumanName();
-
-playGame();
-
-
-//Output score    
-
+    
 
