@@ -2,8 +2,8 @@
 
 let humanScore=document.querySelector(".playerScore");
 let computerScore=document.querySelector(".compScore");
-
-
+let humanCount=0;
+let compCount=0;
 
 // Take user input
 function userInput(){
@@ -11,25 +11,16 @@ function userInput(){
     //Add rock paper and scissors as options
     const rock=document.createElement("button");
     rock.textContent="ROCK";
+    rock.classList.add("rock");
     const paper=document.createElement("button");
-    paper.textContent="PAPER";  
+    paper.textContent="PAPER"; 
+    paper.classList.add("paper"); 
     const scissor=document.createElement("button");
     scissor.textContent="SCISSOR";
+    scissor.classList.add("scissor");
     options.appendChild(rock);
     options.appendChild(paper);
     options.appendChild(scissor);
-    //Check wich button clicked
-    flag= true;
-    while(flag)
-    {
-        rock.addEventListener("click",()=>{return "rock";});
-        paper.addEventListener("click",()=>{return "paper";});
-        scissor.addEventListener("click",()=>{return "scissor";});
-    }
-    
-
-    // deleteOptions
-
 }
 
 //Take computerinput
@@ -78,29 +69,38 @@ function battle(computerChoice,userChoice){
 
 
 //Function for a single round
-function playRound(){
+function playRound(thisUserInput){
 
     //Takes computer input and human input
     let computerChoice=computerInput();
-    let userChoice=userInput();
+    let userChoice=thisUserInput;
     
             //Compares them and updates score accordingly
         let result = battle(computerChoice, userChoice);
         if(result=="computer")
         {   
             console.log("Computer wins");
-            computerScore++;
+            compCount++;
+            computerScore.textContent=compCount;
         }
         else if(result=="user")
         {
             console.log("User wins");
-            humanScore++;
+            humanCount++;
+            humanScore.textContent=humanCount;
         }
         else if(result=="tie")
         {
             console.log("Its a tie");
         }
-    
+    // IF any score reaches 5
+    if(compCount==5 || humanCount==5)
+    {
+        //disply winning message
+        if(compCount==5)alert("computer won");
+        else if(humanCount==5)alert("User won");
+       
+    }
     
 
 }
@@ -108,6 +108,16 @@ function playRound(){
 
 //Check button pressed
 const buttonPlayRound=document.querySelector(".playRound");
-buttonPlayRound.addEventListener("click",playRound);
+buttonPlayRound.addEventListener("click",()=>{
+    userInput();
+    const buttons =document.querySelector(".options");
+    buttons.addEventListener("click",(e)=>{
+            playRound(e.target.className);
+            
+    });
+});
+
+
+    
 
 
